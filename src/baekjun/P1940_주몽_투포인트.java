@@ -1,16 +1,12 @@
 package baekjun;
 
-import com.sun.source.tree.IfTree;
-
-import javax.xml.transform.Result;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class P1940_주몽 {
+public class P1940_주몽_투포인트 {
 
     public static void main(String[] args) throws IOException {
 

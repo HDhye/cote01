@@ -1,3 +1,5 @@
+package programmers;
+
 public class Solution10 {
     public int[] solution(String s) {
 
