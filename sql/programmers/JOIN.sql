@@ -1,0 +1,52 @@
+-- P133027 7월 아이스크림 총 주문량과 상반기의 아이스크림 총 주문량을 더한 값이 큰 순서대로 상위 3개의 맛을 조회하는 SQL 문을 작성해주세요.
+SELECT
+     A.FLAVOR
+FROM FIRST_HALF A
+JOIN (
+    SELECT
+           SUM(TOTAL_ORDER) AS TOTAL_ORDER
+         , FLAVOR
+    FROM JULY
+    GROUP BY FLAVOR
+) B ON A.FLAVOR = B.FLAVOR
+ORDER BY (A.TOTAL_ORDER + B.TOTAL_ORDER) DESC
+LIMIT 3
+
+-- P59042 없어진 기록 찾기
+SELECT
+    A.ANIMAL_ID
+     , A.NAME
+FROM ANIMAL_OUTS A
+WHERE A.ANIMAL_ID NOT IN
+      (
+          SELECT
+              B.ANIMAL_ID
+          FROM ANIMAL_INS B
+      )
+
+-- P157339 특정 기간동안 대여 가능한 자동차들의 대여비용 구하기
+-- https://school.programmers.co.kr/learn/courses/30/lessons/157339
+-- 코드를 입력하세요
+SELECT
+    A.CAR_ID AS CAR_ID
+     , A.CAR_TYPE AS CAR_TYPE
+     , ROUND(A.DAILY_FEE * C.DISCOUNT) AS FEE
+FROM CAR_RENTAL_COMPANY_CAR A
+         JOIN (SELECT CAR_ID
+               FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+               WHERE '20221101' > END_DATE
+                  OR '20221130' < START_DATE
+               GROUP BY CAR_ID
+) B USING (CAR_ID)
+JOIN (SELECT CAR_TYPE, (100 - DISCOUNT_RATE) / 100.0 * 30 AS DISCOUNT
+               FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN
+               WHERE DURATION_TYPE LIKE '%30일%'
+) C USING (CAR_TYPE)
+WHERE A.DAILY_FEE * C.DISCOUNT >= 500000 AND A.DAILY_FEE * C.DISCOUNT < 2000000
+  AND C.CAR_TYPE IN ('세단', 'SUV')
+ORDER BY FEE DESC, A.CAR_TYPE ASC, A.CAR_ID DESC
+-- CAR_ID	CAR_TYPE	FEE
+-- 3	세단	1518000
+-- 23	세단	1380000
+-- 27	SUV	655500
+-- 18	SUV	627000
