@@ -1,4 +1,4 @@
-package self;
+package sort;
 // 병합정렬
 public class MergeSort {
 

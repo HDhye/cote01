@@ -1,4 +1,4 @@
-package self;
+package sort;
 
 // 힙정렬
 public class HeapSort {

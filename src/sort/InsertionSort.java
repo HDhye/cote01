@@ -1,4 +1,4 @@
-package self;
+package sort;
 
 // 삽입정렬
 public class InsertionSort {
